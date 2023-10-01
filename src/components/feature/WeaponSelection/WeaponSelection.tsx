@@ -23,7 +23,11 @@ const WeaponSelection = ({
 }) => {
   return (
     <section>
-      <h1 className="text-zinc-400 text-2xl text-center pb-10">Weapons</h1>
+      <h1 className="text-zinc-400 text-2xl text-center pb-8">Weapons</h1>
+      <p className="text-zinc-400 pb-4 text-center italic text-xs">
+        *Click on the weapons to show the information on the left side below,
+        click again to show the information on the right side below.*
+      </p>
       <div className="flex flex-col md:flex-row flex-wrap">
         <div className="w-full md:w-1/5 px-6 flex flex-col gap-2">
           <WeaponHeader>Sidearms</WeaponHeader>

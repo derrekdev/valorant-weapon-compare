@@ -2,15 +2,6 @@ import WeaponContainer from "@/components/WeaponContainer/WeaponContainer";
 import { weaponDefaultProps } from "@/types/weapon";
 import fetchURLData from "@/utils/fetchURLData";
 
-// const weaponCategoryTypes = {
-//   Pistols: "EEquippableCategory::Sidearm",
-//   SMGs: "EEquippableCategory::SMG",
-//   Shotguns: "EEquippableCategory::Shotgun",
-//   Rifles: "EEquippableCategory::Rifle",
-//   "Sniper Rifles": "EEquippableCategory::Sniper",
-//   "Heavy Weapons": "EEquippableCategory::Heavy",
-// };
-
 const weaponCategoryAction = {
   PISTOL: "Pistols",
   SMG: "SMGs",
@@ -20,13 +11,6 @@ const weaponCategoryAction = {
   HEAVY: "Heavy Weapons",
   MELEE: "Melee",
 };
-
-// type weaponCategory = typeof weaponCategoryTypes
-// type weaponCategoryKey = keyof weaponCategory
-
-// type weaponCategoryProps = (typeof weaponCategoryTypes)[weaponCategoryKey]
-
-// const currentWeaponCategoryTypes<weaponCategoryProps> = weaponCategoryTypes;
 
 const filteredWeapon = (
   weaponCategory: string,
@@ -41,26 +25,54 @@ const filteredWeapon = (
     : [];
 };
 
+const sortWeapons = (
+  weaponSort1st: weaponDefaultProps,
+  weaponSort2nd: weaponDefaultProps
+) => {
+  if (
+    weaponSort1st &&
+    weaponSort1st.shopData &&
+    weaponSort2nd &&
+    weaponSort2nd.shopData
+  ) {
+    if (weaponSort1st.shopData?.cost > weaponSort2nd.shopData?.cost) return 1;
+    else if (weaponSort2nd.shopData?.cost > weaponSort1st.shopData?.cost)
+      return -1;
+  }
+
+  return 0;
+};
+
 export default async function Home() {
   const { data: weaponData } = await fetchURLData("v1/weapons");
-  // const { data: weaponData } = weaponsData;
 
   const arrangedWeapon = {
-    pistols: filteredWeapon(weaponCategoryAction.PISTOL, weaponData),
-    smgs: filteredWeapon(weaponCategoryAction.SMG, weaponData),
-    shotguns: filteredWeapon(weaponCategoryAction.SHOTGUN, weaponData),
-    rifles: filteredWeapon(weaponCategoryAction.RIFFLE, weaponData),
-    snipers: filteredWeapon(weaponCategoryAction.SNIPER, weaponData),
-    heavies: filteredWeapon(weaponCategoryAction.HEAVY, weaponData),
-    melees: filteredWeapon(weaponCategoryAction.MELEE, weaponData),
+    pistols: filteredWeapon(weaponCategoryAction.PISTOL, weaponData).sort(
+      sortWeapons
+    ),
+    smgs: filteredWeapon(weaponCategoryAction.SMG, weaponData).sort(
+      sortWeapons
+    ),
+    shotguns: filteredWeapon(weaponCategoryAction.SHOTGUN, weaponData).sort(
+      sortWeapons
+    ),
+    rifles: filteredWeapon(weaponCategoryAction.RIFFLE, weaponData).sort(
+      sortWeapons
+    ),
+    snipers: filteredWeapon(weaponCategoryAction.SNIPER, weaponData).sort(
+      sortWeapons
+    ),
+    heavies: filteredWeapon(weaponCategoryAction.HEAVY, weaponData).sort(
+      sortWeapons
+    ),
+    melees: filteredWeapon(weaponCategoryAction.MELEE, weaponData).sort(
+      sortWeapons
+    ),
   };
 
   return (
     <main className="container m-auto bg-zinc-800 p-2 md:p-6 rounded-xl">
-      {/* {weaponData.status === 200 && ( */}
-      {/* <WeaponSelection weapons={arrangedWeapon} /> */}
       <WeaponContainer weapons={arrangedWeapon} />
-      {/* )} */}
     </main>
   );
 }

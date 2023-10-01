@@ -7,22 +7,29 @@ import { CloseIcon } from "../SVGIcon/icons";
 
 type compareItemProps = {
   title: string;
-  // weaponStats?: Array<number>;
-  children?: ReactNode;
+  stats?: number | string;
+  metric?: string;
 };
 
-const CompareBlockItem = ({ title, children }: compareItemProps) => {
+const CompareBlockItem = ({ title, stats, metric }: compareItemProps) => {
   return (
     <div className="w-full bg-zinc-800 text-zinc-100 font-bold flex flex-col">
       <div className="bg-zinc-600 w-full text-center p-2 ">{title}</div>
       <div className="flex flex-col bg-zinc-800 w-full text-center p-2 text-6xl">
-        {children}
+        <span className="text-4xl font-medium">{stats}</span>
+        <span className="text-xs font-normal">{metric}</span>
       </div>
     </div>
   );
 };
 
-const DamageBlockItem = ({ title, children }: compareItemProps) => {
+const DamageBlockItem = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) => {
   return (
     <div className="w-full bg-zinc-800 text-zinc-100 font-bold flex flex-row justify-between p-4">
       <div className="text-teal-200 uppercase w-1/4">{title}</div>
@@ -86,7 +93,7 @@ const CompareBlock = ({
         </span>
         <span className="text-sm">{weapon.shopData?.category}</span>
         <button
-          className="w-8 h-8 rounded-full bg-rose-700 hover:bg-rose-400 float-right cursor-pointer mt-[-50px] mr-[-25px] "
+          className="w-8 h-8 rounded-full bg-rose-700 hover:bg-rose-400 float-right cursor-pointer mt-[-50px] mr-[-25px] hover:scale-125 transition-all"
           onClick={() => setClose()}
         >
           <CloseIcon className="w-8 h-8" />
@@ -94,11 +101,11 @@ const CompareBlock = ({
       </div>
 
       <div className="flex flex-col w-full">
-        <div className="flex flex-col bg-zinc-500 items-center justify-center py-10 h-[300px]">
+        <div className="flex flex-col bg-zinc-500 items-center justify-center py-10 h-[300px] overflow-hidden">
           <Image
             src={weapon.displayIcon}
             alt={weapon.displayName}
-            height={250}
+            height={150}
             width={500}
           />
         </div>
@@ -106,91 +113,86 @@ const CompareBlock = ({
           <div className="bg-zinc-600 p-2 text-emerald-50 uppercase">
             Primary Fire
           </div>
-          <div className="grid grid-cols-2 gap-2 bg-zinc-700 p-2">
-            {weapon.weaponStats && (
+          {weapon.weaponStats && (
+            <div className="grid grid-cols-2 gap-2 bg-zinc-700 p-2">
+              <CompareBlockItem
+                title="Fire Rate"
+                stats={weapon.weaponStats.fireRate}
+                metric="RDS/SEC"
+              />
+              <CompareBlockItem
+                title="Run Speed"
+                stats={weapon.weaponStats.runSpeedMultiplier}
+                metric="M/SEC"
+              />
+              <CompareBlockItem
+                title="Equip Speed"
+                stats={weapon.weaponStats.equipTimeSeconds}
+                metric="SEC"
+              />
+              <CompareBlockItem
+                title="1st shot spread"
+                stats={weapon.weaponStats.firstBulletAccuracy}
+                metric="SEC"
+              />
+              <CompareBlockItem
+                title="Reload Speed"
+                stats={weapon.weaponStats.reloadTimeSeconds}
+                metric="SEC"
+              />
+              <CompareBlockItem
+                title="Magezine"
+                stats={weapon.weaponStats.magazineSize}
+                metric="RDS"
+              />
+            </div>
+          )}
+          <div className="bg-zinc-700">
+            {damageRangesArray.range.length > 0 && (
               <>
-                <CompareBlockItem title="Fire Rate">
-                  <span className="text-4xl font-medium">
-                    {weapon.weaponStats.fireRate}
-                  </span>
-                  <span className="text-xs font-normal">RDS/SEC</span>
-                </CompareBlockItem>
-                <CompareBlockItem title="Run Speed">
-                  <span className="text-4xl font-medium">
-                    {weapon.weaponStats.runSpeedMultiplier}
-                  </span>
-                  <span className="text-xs font-normal">M/SEC</span>
-                </CompareBlockItem>
-                <CompareBlockItem title="Equip Speed">
-                  <span className="text-4xl font-medium">
-                    {weapon.weaponStats.equipTimeSeconds}
-                  </span>
-                  <span className="text-xs font-normal">SEC</span>
-                </CompareBlockItem>
-
-                <CompareBlockItem title="1st shot spread">
-                  <span className="text-4xl font-medium">
-                    {weapon.weaponStats.firstBulletAccuracy}
-                  </span>
-                  <span className="text-xs font-normal">SEC</span>
-                </CompareBlockItem>
-                <CompareBlockItem title="Reload Speed">
-                  <span className="text-4xl font-medium">
-                    {weapon.weaponStats.reloadTimeSeconds}
-                  </span>
-                  <span className="text-xs font-normal">SEC</span>
-                </CompareBlockItem>
-                <CompareBlockItem title="Magezine">
-                  <span className="text-4xl font-medium">
-                    {weapon.weaponStats.magazineSize}
-                  </span>
-                  <span className="text-xs font-normal">RDS</span>
-                </CompareBlockItem>
+                <div className="bg-zinc-600 p-2 text-emerald-50 uppercase">
+                  Damage
+                </div>
+                <div className="bg-zinc-700 p-2 flex flex-col gap-[1px]">
+                  {damageRangesArray.range.length > 0 && (
+                    <DamageBlockItem title="">
+                      {damageRangesArray.range.map((item, index) => (
+                        <span key={index} className="w-1/3">
+                          {item}
+                        </span>
+                      ))}
+                    </DamageBlockItem>
+                  )}
+                  {damageRangesArray.heads.length > 0 && (
+                    <DamageBlockItem title="head">
+                      {damageRangesArray.heads.map((item, index) => (
+                        <span key={index} className="w-1/3">
+                          {item.toFixed(1).replace(/[.,]0$/, "")}
+                        </span>
+                      ))}
+                    </DamageBlockItem>
+                  )}
+                  {damageRangesArray.bodys.length > 0 && (
+                    <DamageBlockItem title="body">
+                      {damageRangesArray.bodys.map((item, index) => (
+                        <span key={index} className="w-1/3">
+                          {item.toFixed(1).replace(/[.,]0$/, "")}
+                        </span>
+                      ))}
+                    </DamageBlockItem>
+                  )}
+                  {damageRangesArray.legs.length > 0 && (
+                    <DamageBlockItem title="leg">
+                      {damageRangesArray.legs.map((item, index) => (
+                        <span key={index} className="w-1/3">
+                          {item.toFixed(1).replace(/[.,]0$/, "")}
+                        </span>
+                      ))}
+                    </DamageBlockItem>
+                  )}
+                </div>
               </>
             )}
-          </div>
-          <div className="bg-zinc-700">
-            <div className="bg-zinc-600 p-2 text-emerald-50 uppercase">
-              Damage
-            </div>
-            <div className="bg-zinc-700 p-2 flex flex-col gap-[1px]">
-              {damageRangesArray.range.length > 0 && (
-                <DamageBlockItem title="">
-                  {damageRangesArray.range.map((item, index) => (
-                    <span key={index} className="w-1/3">
-                      {item}
-                    </span>
-                  ))}
-                </DamageBlockItem>
-              )}
-              {damageRangesArray.heads.length > 0 && (
-                <DamageBlockItem title="head">
-                  {damageRangesArray.heads.map((item, index) => (
-                    <span key={index} className="w-1/3">
-                      {item.toFixed(2).replace(/[.,]00$/, "")}
-                    </span>
-                  ))}
-                </DamageBlockItem>
-              )}
-              {damageRangesArray.bodys.length > 0 && (
-                <DamageBlockItem title="body">
-                  {damageRangesArray.bodys.map((item, index) => (
-                    <span key={index} className="w-1/3">
-                      {item.toFixed(2).replace(/[.,]00$/, "")}
-                    </span>
-                  ))}
-                </DamageBlockItem>
-              )}
-              {damageRangesArray.legs.length > 0 && (
-                <DamageBlockItem title="leg">
-                  {damageRangesArray.legs.map((item, index) => (
-                    <span key={index} className="w-1/3">
-                      {item.toFixed(2).replace(/[.,]00$/, "")}
-                    </span>
-                  ))}
-                </DamageBlockItem>
-              )}
-            </div>
           </div>
         </div>
       </div>
