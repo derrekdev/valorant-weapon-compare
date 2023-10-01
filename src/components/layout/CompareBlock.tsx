@@ -2,43 +2,10 @@
 
 import { weaponDefaultProps } from "@/types/weapon";
 import Image from "next/image";
-import { ReactNode, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { CloseIcon } from "../SVGIcon/icons";
-
-type compareItemProps = {
-  title: string;
-  stats?: number | string;
-  metric?: string;
-};
-
-const CompareBlockItem = ({ title, stats, metric }: compareItemProps) => {
-  return (
-    <div className="w-full bg-zinc-800 text-zinc-100 font-bold flex flex-col">
-      <div className="bg-zinc-600 w-full text-center p-2 ">{title}</div>
-      <div className="flex flex-col bg-zinc-800 w-full text-center p-2 text-6xl">
-        <span className="text-4xl font-medium">{stats}</span>
-        <span className="text-xs font-normal">{metric}</span>
-      </div>
-    </div>
-  );
-};
-
-const DamageBlockItem = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) => {
-  return (
-    <div className="w-full bg-zinc-800 text-zinc-100 font-bold flex flex-row justify-between p-4">
-      <div className="text-teal-200 uppercase w-1/4">{title}</div>
-      <div className="grow text-center flex justify-around w-3/4">
-        {children}
-      </div>
-    </div>
-  );
-};
+import CompareBlockItem from "../ui/CompareBlockItem/CompareBlockItem";
+import DamageBlockItem from "../ui/DamageBlockItem/DamageBlockItem";
 
 type damageRangeProps<TDamage> = {
   heads: Array<TDamage>;
@@ -60,6 +27,8 @@ const CompareBlock = ({
     return null;
   }
 
+  const [selectedImage, setSelectedImage] = useState("");
+
   const damageRangesArray = useMemo(() => {
     const currentRanges: damageRangeProps<number> = {
       heads: [],
@@ -69,10 +38,10 @@ const CompareBlock = ({
     };
 
     if (
-      weapon.weaponStats?.damageRanges &&
-      weapon.weaponStats?.damageRanges?.length > 0
+      weapon.weaponStats.damageRanges &&
+      weapon.weaponStats.damageRanges?.length > 0
     ) {
-      weapon.weaponStats?.damageRanges.map((damageRange) => {
+      weapon.weaponStats.damageRanges.map((damageRange) => {
         currentRanges.heads.push(damageRange.headDamage);
         currentRanges.bodys.push(damageRange.bodyDamage);
         currentRanges.legs.push(damageRange.legDamage);
@@ -84,6 +53,10 @@ const CompareBlock = ({
 
     return currentRanges;
   }, [weapon.weaponStats]);
+
+  const currentImage = useMemo(() => {
+    return !selectedImage ? weapon.displayIcon : selectedImage;
+  }, [selectedImage]);
 
   return (
     <>
@@ -99,17 +72,43 @@ const CompareBlock = ({
           <CloseIcon className="w-8 h-8" />
         </button>
       </div>
-
       <div className="flex flex-col w-full">
         <div className="flex flex-col bg-zinc-500 items-center justify-center py-10 h-[300px] overflow-hidden">
           <Image
-            src={weapon.displayIcon}
+            src={currentImage}
             alt={weapon.displayName}
             height={150}
             width={500}
           />
         </div>
-        <div className={`flex flex-col `}>
+        <div className="flex flex-col bg-zinc-600 p-2 text-emerald-50 ">
+          <div className="bg-zinc-800 p-2 flex flex-row justify-between">
+            <span className="uppercase">Skins</span>
+            <div className="w-4/5">
+              <select
+                className="w-full bg-transparent"
+                defaultValue={weapon.defaultSkinUuid}
+                onChange={(e) => {
+                  setSelectedImage(e.target.value);
+                }}
+              >
+                {weapon?.skins.map((skin) => (
+                  <option
+                    key={skin.uuid}
+                    value={
+                      !!skin.displayIcon
+                        ? skin.displayIcon
+                        : skin.levels[0].displayIcon
+                    }
+                  >
+                    {skin.displayName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col">
           <div className="bg-zinc-600 p-2 text-emerald-50 uppercase">
             Primary Fire
           </div>

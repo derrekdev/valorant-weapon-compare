@@ -8,6 +8,7 @@ export type weaponDefaultProps = {
   assetPath: string;
   weaponStats: weaponStatsProps;
   shopData?: shopDataProps;
+  skins: Array<skinsProps>;
 };
 
 export type weaponStatsProps = {

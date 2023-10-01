@@ -15,7 +15,7 @@ const WeaponItem = ({
 }: weaponItemProps) => {
   return (
     <div
-      className="bg-neutral-900 hover:bg-neutral-800 text-neutral-50 p-6 w-full flex flex-col h-40 justify-between cursor-pointer   transition-all"
+      className="bg-neutral-900 hover:bg-neutral-800 text-neutral-50 p-6 w-full flex flex-col h-40 justify-between cursor-pointer transition-all group/img-hover"
       onClick={() => (handleWeaponClick ? handleWeaponClick(weapon) : null)}
     >
       <div className="flex items-center justify-center pt-4">
@@ -24,7 +24,9 @@ const WeaponItem = ({
           alt={weapon.displayName}
           width={150}
           height={150}
-          className={`${weaponType === "pistol" ? "w-[80px]" : ""}`}
+          className={`${
+            weaponType === "pistol" ? "w-[80px]" : ""
+          } group-hover/img-hover:scale-125 transition-all`}
         />
       </div>
       <div className="flex flex-col xl:text-sm md:text-xs text-md">
