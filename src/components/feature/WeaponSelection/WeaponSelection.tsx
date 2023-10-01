@@ -24,7 +24,6 @@ const WeaponSelection = ({
   return (
     <section>
       <h1 className="text-zinc-400 text-2xl text-center pb-10">Weapons</h1>
-      {/* <div className="grid grid-flow-cols grid-cols-[auto_60%_auto] grid-flow-col gap-10"> */}
       <div className="flex flex-col md:flex-row flex-wrap">
         <div className="w-full md:w-1/5 px-6 flex flex-col gap-2">
           <WeaponHeader>Sidearms</WeaponHeader>
@@ -105,9 +104,6 @@ const WeaponSelection = ({
           ))}
         </div>
       </div>
-      {/* <div className="grid grid-cols-6 gap-4 items-center justify-items-center">
-
-      </div> */}
     </section>
   );
 };

@@ -20,8 +20,12 @@ const WeaponContainer = ({
 }: {
   weapons: groupWeapon<weaponDefaultProps[]>;
 }) => {
-  const [compareLeft, setCompareLeft] = useState<weaponDefaultProps>();
-  const [compareRight, setCompareRight] = useState<weaponDefaultProps>();
+  const [compareLeft, setCompareLeft] = useState<
+    weaponDefaultProps | undefined | null
+  >(null);
+  const [compareRight, setCompareRight] = useState<
+    weaponDefaultProps | undefined | null
+  >(null);
 
   const handleWeaponClick = (uuid: weaponDefaultProps): void => {
     if (!compareLeft) {
@@ -39,7 +43,9 @@ const WeaponContainer = ({
       />
       <WeaponCompare
         firstCompareValue={compareLeft}
+        firstSetValue={setCompareLeft}
         secondCompareValue={compareRight}
+        secondSetValue={setCompareRight}
       />
     </div>
   );
