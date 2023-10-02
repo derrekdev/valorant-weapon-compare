@@ -1,6 +1,7 @@
 "use client";
 
 import { weaponDefaultProps } from "@/types/weapon";
+import { fetchImageURL } from "@/utils/fetchImageURL";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { CloseIcon } from "../SVGIcon/icons";
@@ -13,6 +14,13 @@ type damageRangeProps<TDamage> = {
   legs: Array<TDamage>;
   range: Array<string>;
 };
+
+// const fetchImage = async (imageURL: string) => {
+//   const res = await fetch(imageURL);
+//   const imageBlob = await res.blob();
+//   const imageObjectUrl = URL.createObjectURL(imageBlob);
+//   return imageObjectUrl
+// }
 
 const CompareBlock = ({
   weapon,
@@ -28,6 +36,7 @@ const CompareBlock = ({
   }
 
   const [selectedImage, setSelectedImage] = useState("");
+  const [loadingImage, setLoadingImage] = useState(false);
 
   const damageRangesArray = useMemo(() => {
     const currentRanges: damageRangeProps<number> = {
@@ -38,6 +47,7 @@ const CompareBlock = ({
     };
 
     if (
+      weapon.weaponStats &&
       weapon.weaponStats.damageRanges &&
       weapon.weaponStats.damageRanges?.length > 0
     ) {
@@ -58,6 +68,26 @@ const CompareBlock = ({
     return !selectedImage ? weapon.displayIcon : selectedImage;
   }, [selectedImage]);
 
+  const generateImage = async (imageUrl: string) => {
+    // return fetchImageURL(imageUrl);
+    setSelectedImage(await fetchImageURL(imageUrl));
+  };
+
+  // useEffect(() => {
+  //   setLoadingImage(true);
+  //   if (selectedImage) {
+  //     setLoadingImage(false);
+  //   }
+  // }, [selectedImage]);
+
+  console.log("selectedImage", selectedImage);
+  console.log("loadingImage", loadingImage);
+  // console.log("generateImage", generateImage);
+
+  const imageLoader = ({ src }: { src: string | URL }) => {
+    return `${src}`;
+  };
+
   return (
     <>
       <div className="flex flex-row justify-between items-center bg-teal-900 text-emerald-50 uppercase font-medium border-b-[1px] text-center p-2">
@@ -74,12 +104,28 @@ const CompareBlock = ({
       </div>
       <div className="flex flex-col w-full">
         <div className="flex flex-col bg-zinc-500 items-center justify-center py-10 h-[300px] overflow-hidden">
-          <Image
-            src={currentImage}
-            alt={weapon.displayName}
-            height={150}
-            width={500}
-          />
+          {currentImage ? (
+            <Image
+              loader={imageLoader}
+              src={currentImage}
+              alt={weapon.displayName}
+              height={150}
+              width={500}
+              id="weapon-image"
+              // onLoad={}\
+              className="opacity-0 transition-all"
+              onLoad={(image) => {
+                document
+                  .getElementById("weapon-image")
+                  ?.classList.add("opacity-0");
+              }}
+              onLoadingComplete={(image) => {
+                image.classList.remove("opacity-0");
+              }}
+            />
+          ) : (
+            <p>Loading images.</p>
+          )}
         </div>
         <div className="flex flex-col bg-zinc-600 p-2 text-emerald-50 ">
           <div className="bg-zinc-800 p-2 flex flex-row justify-between">
@@ -89,10 +135,32 @@ const CompareBlock = ({
                 className="w-full bg-transparent"
                 defaultValue={weapon.defaultSkinUuid}
                 onChange={(e) => {
-                  setSelectedImage(e.target.value);
+                  // setSelectedImage("");
+                  // setSelectedImage(e.target.value);
+                  generateImage(e.target.value);
                 }}
+                // onSelect={(e) => {
+                //   setSelectedImage(e.target);
+                // }}
               >
                 {weapon?.skins.map((skin) => (
+                  <optgroup key={skin.uuid} label={skin.displayName}>
+                    {skin.levels.map((level) => (
+                      <option
+                        key={level.uuid}
+                        value={
+                          !!level.displayIcon
+                            ? level.displayIcon
+                            : skin.displayIcon
+                        }
+                      >
+                        {level.displayName}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+
+                {/* {weapon?.skins.map((skin) => (
                   <option
                     key={skin.uuid}
                     value={
@@ -103,7 +171,7 @@ const CompareBlock = ({
                   >
                     {skin.displayName}
                   </option>
-                ))}
+                ))} */}
               </select>
             </div>
           </div>
