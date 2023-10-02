@@ -1,9 +1,9 @@
 "use client";
 
 import { weaponDefaultProps } from "@/types/weapon";
-import { fetchImageURL } from "@/utils/fetchImageURL";
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import useSWR from "swr";
 import { CloseIcon } from "../SVGIcon/icons";
 import CompareBlockItem from "../ui/CompareBlockItem/CompareBlockItem";
 import DamageBlockItem from "../ui/DamageBlockItem/DamageBlockItem";
@@ -15,12 +15,7 @@ type damageRangeProps<TDamage> = {
   range: Array<string>;
 };
 
-// const fetchImage = async (imageURL: string) => {
-//   const res = await fetch(imageURL);
-//   const imageBlob = await res.blob();
-//   const imageObjectUrl = URL.createObjectURL(imageBlob);
-//   return imageObjectUrl
-// }
+const imageFetcher = (url: string) => fetch(url).then((res) => res.url);
 
 const CompareBlock = ({
   weapon,
@@ -35,8 +30,9 @@ const CompareBlock = ({
     return null;
   }
 
-  const [selectedImage, setSelectedImage] = useState("");
-  const [loadingImage, setLoadingImage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(
+    weapon.skins[0].displayIcon
+  );
 
   const damageRangesArray = useMemo(() => {
     const currentRanges: damageRangeProps<number> = {
@@ -68,25 +64,10 @@ const CompareBlock = ({
     return !selectedImage ? weapon.displayIcon : selectedImage;
   }, [selectedImage]);
 
-  const generateImage = async (imageUrl: string) => {
-    // return fetchImageURL(imageUrl);
-    setSelectedImage(await fetchImageURL(imageUrl));
-  };
-
-  // useEffect(() => {
-  //   setLoadingImage(true);
-  //   if (selectedImage) {
-  //     setLoadingImage(false);
-  //   }
-  // }, [selectedImage]);
-
-  console.log("selectedImage", selectedImage);
-  console.log("loadingImage", loadingImage);
-  // console.log("generateImage", generateImage);
-
-  const imageLoader = ({ src }: { src: string | URL }) => {
-    return `${src}`;
-  };
+  const { data: imageURL, isLoading: imageLoading } = useSWR(
+    selectedImage,
+    imageFetcher
+  );
 
   return (
     <>
@@ -104,27 +85,46 @@ const CompareBlock = ({
       </div>
       <div className="flex flex-col w-full">
         <div className="flex flex-col bg-zinc-500 items-center justify-center py-10 h-[300px] overflow-hidden">
-          {currentImage ? (
+          {!imageLoading ? (
             <Image
-              loader={imageLoader}
-              src={currentImage}
+              src={imageURL ? imageURL : weapon.displayIcon}
               alt={weapon.displayName}
               height={150}
               width={500}
-              id="weapon-image"
-              // onLoad={}\
+              id={`weapon-image-${weapon.uuid}`}
               className="opacity-0 transition-all"
-              onLoad={(image) => {
-                document
-                  .getElementById("weapon-image")
-                  ?.classList.add("opacity-0");
-              }}
               onLoadingComplete={(image) => {
                 image.classList.remove("opacity-0");
               }}
+              onError={() => setSelectedImage(weapon.displayIcon)}
             />
           ) : (
-            <p>Loading images.</p>
+            <>
+              {document
+                .getElementById(`weapon-image-${weapon.uuid}`)
+                ?.classList.add("opacity-0")}
+
+              <svg
+                className="animate-spin h-32 w-32 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            </>
           )}
         </div>
         <div className="flex flex-col bg-zinc-600 p-2 text-emerald-50 ">
@@ -133,15 +133,9 @@ const CompareBlock = ({
             <div className="w-4/5">
               <select
                 className="w-full bg-transparent"
-                defaultValue={weapon.defaultSkinUuid}
                 onChange={(e) => {
-                  // setSelectedImage("");
-                  // setSelectedImage(e.target.value);
-                  generateImage(e.target.value);
+                  setSelectedImage(e.target.value);
                 }}
-                // onSelect={(e) => {
-                //   setSelectedImage(e.target);
-                // }}
               >
                 {weapon?.skins.map((skin) => (
                   <optgroup key={skin.uuid} label={skin.displayName}>
@@ -159,19 +153,6 @@ const CompareBlock = ({
                     ))}
                   </optgroup>
                 ))}
-
-                {/* {weapon?.skins.map((skin) => (
-                  <option
-                    key={skin.uuid}
-                    value={
-                      !!skin.displayIcon
-                        ? skin.displayIcon
-                        : skin.levels[0].displayIcon
-                    }
-                  >
-                    {skin.displayName}
-                  </option>
-                ))} */}
               </select>
             </div>
           </div>

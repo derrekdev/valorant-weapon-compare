@@ -55,6 +55,10 @@ const WeaponContainer = ({
         secondCompareValue={compareRight}
         secondSetValue={clearRightComparision}
       />
+      <p className="text-zinc-400 pt-10 text-center italic text-xs">
+        * Note: when selecting a skin, some skins will not be accurate as this
+        is rendered on an api which is not in my control.*
+      </p>
     </div>
   );
 };
