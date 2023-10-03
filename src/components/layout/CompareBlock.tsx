@@ -26,12 +26,13 @@ const CompareBlock = ({
   position?: "left" | "right";
   setClose: () => void;
 }) => {
-  if (!!!weapon) {
-    return null;
-  }
-
   const [selectedImage, setSelectedImage] = useState(
     weapon.skins[0].displayIcon
+  );
+
+  const { data: imageURL, isLoading: imageLoading } = useSWR(
+    selectedImage,
+    imageFetcher
   );
 
   const damageRangesArray = useMemo(() => {
@@ -60,14 +61,9 @@ const CompareBlock = ({
     return currentRanges;
   }, [weapon.weaponStats]);
 
-  const currentImage = useMemo(() => {
-    return !selectedImage ? weapon.displayIcon : selectedImage;
-  }, [selectedImage]);
-
-  const { data: imageURL, isLoading: imageLoading } = useSWR(
-    selectedImage,
-    imageFetcher
-  );
+  if (!!!weapon) {
+    return null;
+  }
 
   return (
     <>
