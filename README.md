@@ -4,6 +4,10 @@ Valorant Weapon Compare is a repository for comparing valorant weapons to each o
 
 This is only a side project and not for official use. The Valorant weapon data was coming from an API and not created with this project, so any miss information shown on the repository are not controlled by this project.
 
+<br />
+Valorant Weapon Compare site: <br />
+https://valorant-weapon-compare.vercel.app/
+
 ## Installation
 
 You must first have node in your system
@@ -22,7 +26,6 @@ git clone https://github.com/derrekdev/valorant-weapon-compare.git
 ```
 DATA_API_URL=https://valorant-api.com/
 ```
-<br />
 <br />
 
 ## Other Information
