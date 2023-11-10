@@ -44,3 +44,7 @@ Frameworks and Libraries used on this project
 Valorant-API <br />
 https://valorant-api.com/
 > This is only a free API and not the official valorant API
+
+## Todo List
+- make mobile design more friendlier when using
+- maybe add more animations for text
