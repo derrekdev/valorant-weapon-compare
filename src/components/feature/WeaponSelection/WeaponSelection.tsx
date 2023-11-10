@@ -46,7 +46,7 @@ const WeaponSelection = ({
             className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group/pistol ${
               showMobileWeaponItem === "pistol"
                 ? `is-${showMobileWeaponItem} max-md:h-[60vh]`
-                : "max-md:h-0 max-md:opacity-0 hidden"
+                : "max-md:h-0 max-md:opacity-0"
             }`}
           >
             {weapons.pistols?.map((pistol) => (
@@ -74,7 +74,7 @@ const WeaponSelection = ({
                 className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
                   showMobileWeaponItem === "smg"
                     ? `is_${showMobileWeaponItem} max-md:h-[20vh]`
-                    : "max-md:h-0 max-md:opacity-0 hidden"
+                    : "max-md:h-0 max-md:opacity-0"
                 }`}
               >
                 {weapons.smgs?.map((smg) => (
@@ -100,7 +100,7 @@ const WeaponSelection = ({
                 className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
                   showMobileWeaponItem === "shotgun"
                     ? `is_${showMobileWeaponItem} max-md:h-[20vh]`
-                    : "max-md:h-0 max-md:opacity-0 hidden"
+                    : "max-md:h-0 max-md:opacity-0"
                 }`}
               >
                 {weapons.shotguns?.map((shotgun) => (
@@ -127,7 +127,7 @@ const WeaponSelection = ({
               className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
                 showMobileWeaponItem === "rifles"
                   ? `is_${showMobileWeaponItem} max-md:h-[40vh]`
-                  : "max-md:h-0 max-md:opacity-0 hidden"
+                  : "max-md:h-0 max-md:opacity-0"
               }`}
             >
               {weapons.rifles?.map((rifle) => (
@@ -154,7 +154,7 @@ const WeaponSelection = ({
                 className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
                   showMobileWeaponItem === "sniper"
                     ? `is_${showMobileWeaponItem} max-md:h-[20vh]`
-                    : "max-md:h-0 max-md:opacity-0 hidden"
+                    : "max-md:h-0 max-md:opacity-0"
                 }`}
               >
                 {weapons.snipers?.map((sniper) => (
@@ -168,7 +168,7 @@ const WeaponSelection = ({
                 ))}
               </div>
             </div>
-            <div className="flex flex-col gap-2 ">
+            <div className="flex flex-col md:gap-2 ">
               <WeaponHeader
                 value="machine"
                 selectedValue={showMobileWeaponItem}
@@ -180,7 +180,7 @@ const WeaponSelection = ({
                 className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
                   showMobileWeaponItem === "machine"
                     ? `is_${showMobileWeaponItem} max-md:h-[20vh]`
-                    : "max-md:h-0 max-md:opacity-0 max-md:hidden"
+                    : "max-md:h-0 max-md:opacity-0"
                 }`}
               >
                 {weapons.heavies?.map((heavy) => (
@@ -208,7 +208,7 @@ const WeaponSelection = ({
             className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
               showMobileWeaponItem === "knife"
                 ? `is_${showMobileWeaponItem} max-md:h-[20vh]`
-                : "max-md:h-0 max-md:opacity-0 hidden"
+                : "max-md:h-0 max-md:opacity-0"
             }`}
           >
             {weapons.melees?.map((melee) => (

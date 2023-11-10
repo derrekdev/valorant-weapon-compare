@@ -25,3 +25,10 @@
 //     )
 //     rgb(var(--background-start-rgb));
 // }
+
+@media (max-width: 641px) {
+  .container {
+    max-width: 640px;
+    width: 95vw;
+  }
+}
