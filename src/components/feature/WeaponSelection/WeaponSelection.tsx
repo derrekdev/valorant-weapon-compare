@@ -45,7 +45,7 @@ const WeaponSelection = ({
           <div
             className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group/pistol ${
               showMobileWeaponItem === "pistol"
-                ? `is-${showMobileWeaponItem} max-md:h-[60vh]`
+                ? `is-${showMobileWeaponItem} max-md:h-[100vw]`
                 : "max-md:h-0 max-md:opacity-0"
             }`}
           >
@@ -73,7 +73,7 @@ const WeaponSelection = ({
               <div
                 className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
                   showMobileWeaponItem === "smg"
-                    ? `is_${showMobileWeaponItem} max-md:h-[20vh]`
+                    ? `is_${showMobileWeaponItem} max-md:h-[40vw]`
                     : "max-md:h-0 max-md:opacity-0"
                 }`}
               >
@@ -99,7 +99,7 @@ const WeaponSelection = ({
               <div
                 className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
                   showMobileWeaponItem === "shotgun"
-                    ? `is_${showMobileWeaponItem} max-md:h-[20vh]`
+                    ? `is_${showMobileWeaponItem} max-md:h-[35vw]`
                     : "max-md:h-0 max-md:opacity-0"
                 }`}
               >
@@ -126,7 +126,7 @@ const WeaponSelection = ({
             <div
               className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
                 showMobileWeaponItem === "rifles"
-                  ? `is_${showMobileWeaponItem} max-md:h-[40vh]`
+                  ? `is_${showMobileWeaponItem} max-md:h-[65vw]`
                   : "max-md:h-0 max-md:opacity-0"
               }`}
             >
@@ -153,7 +153,7 @@ const WeaponSelection = ({
               <div
                 className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
                   showMobileWeaponItem === "sniper"
-                    ? `is_${showMobileWeaponItem} max-md:h-[20vh]`
+                    ? `is_${showMobileWeaponItem} max-md:h-[35vw]`
                     : "max-md:h-0 max-md:opacity-0"
                 }`}
               >
@@ -179,7 +179,7 @@ const WeaponSelection = ({
               <div
                 className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
                   showMobileWeaponItem === "machine"
-                    ? `is_${showMobileWeaponItem} max-md:h-[20vh]`
+                    ? `is_${showMobileWeaponItem} max-md:h-[35vw]`
                     : "max-md:h-0 max-md:opacity-0"
                 }`}
               >
@@ -207,7 +207,7 @@ const WeaponSelection = ({
           <div
             className={`max-md:grid max-md:grid-cols-2 gap-2 transition-all group ${
               showMobileWeaponItem === "knife"
-                ? `is_${showMobileWeaponItem} max-md:h-[20vh]`
+                ? `is_${showMobileWeaponItem} max-md:h-[35vw]`
                 : "max-md:h-0 max-md:opacity-0"
             }`}
           >

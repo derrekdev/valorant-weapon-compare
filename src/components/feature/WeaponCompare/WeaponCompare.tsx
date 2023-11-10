@@ -25,11 +25,7 @@ const WeaponCompare = ({
       </div>
       <div className="md:w-5/12 max-md:w-1/2">
         {secondCompareValue && (
-          <CompareBlock
-            weapon={secondCompareValue}
-            setClose={secondSetValue}
-            position="right"
-          />
+          <CompareBlock weapon={secondCompareValue} setClose={secondSetValue} />
         )}
       </div>
     </section>

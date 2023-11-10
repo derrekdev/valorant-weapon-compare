@@ -19,11 +19,9 @@ const imageFetcher = (url: string) => fetch(url).then((res) => res.url);
 
 const CompareBlock = ({
   weapon,
-  position = "left",
   setClose,
 }: {
   weapon: weaponDefaultProps;
-  position?: "left" | "right";
   setClose: () => void;
 }) => {
   const [selectedImage, setSelectedImage] = useState(
@@ -71,7 +69,9 @@ const CompareBlock = ({
         <span className="text-2xl font-bold uppercase grow text-left">
           {weapon.displayName}
         </span>
-        <span className="text-sm">{weapon.shopData?.category}</span>
+        <span className="text-sm max-md:hidden">
+          {weapon.shopData?.category}
+        </span>
         <button
           className="w-8 h-8 rounded-full bg-rose-700 hover:bg-rose-400 md:float-right cursor-pointer md:mt-[-50px] md:mr-[-25px] hover:scale-125 transition-all"
           onClick={() => setClose()}
@@ -80,7 +80,7 @@ const CompareBlock = ({
         </button>
       </div>
       <div className="flex flex-col w-full">
-        <div className="flex flex-col bg-zinc-500 items-center justify-center py-10 md:h-[300px] overflow-hidden">
+        <div className="flex flex-col bg-zinc-500 items-center justify-center py-10 md:h-[300px] max-md:h-[35vw] overflow-hidden">
           {!imageLoading ? (
             <Image
               src={imageURL ? imageURL : weapon.displayIcon}
@@ -201,7 +201,7 @@ const CompareBlock = ({
                   {damageRangesArray.range.length > 0 && (
                     <DamageBlockItem title="">
                       {damageRangesArray.range.map((item, index) => (
-                        <span key={index} className="w-1/3">
+                        <span key={index} className="w-1/3 max-md:text-xs">
                           {item}
                         </span>
                       ))}
@@ -210,7 +210,7 @@ const CompareBlock = ({
                   {damageRangesArray.heads.length > 0 && (
                     <DamageBlockItem title="head">
                       {damageRangesArray.heads.map((item, index) => (
-                        <span key={index} className="w-1/3">
+                        <span key={index} className="w-1/3 max-md:text-sm">
                           {item.toFixed(1).replace(/[.,]0$/, "")}
                         </span>
                       ))}
@@ -219,7 +219,7 @@ const CompareBlock = ({
                   {damageRangesArray.bodys.length > 0 && (
                     <DamageBlockItem title="body">
                       {damageRangesArray.bodys.map((item, index) => (
-                        <span key={index} className="w-1/3">
+                        <span key={index} className="w-1/3 max-md:text-sm">
                           {item.toFixed(1).replace(/[.,]0$/, "")}
                         </span>
                       ))}
@@ -228,7 +228,7 @@ const CompareBlock = ({
                   {damageRangesArray.legs.length > 0 && (
                     <DamageBlockItem title="leg">
                       {damageRangesArray.legs.map((item, index) => (
-                        <span key={index} className="w-1/3">
+                        <span key={index} className="w-1/3 max-md:text-sm">
                           {item.toFixed(1).replace(/[.,]0$/, "")}
                         </span>
                       ))}
