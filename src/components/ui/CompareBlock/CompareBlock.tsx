@@ -4,9 +4,9 @@ import { weaponDefaultProps } from "@/types/weapon";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import useSWR from "swr";
-import { CloseIcon } from "../SVGIcon/icons";
-import CompareBlockItem from "../ui/CompareBlockItem/CompareBlockItem";
-import DamageBlockItem from "../ui/DamageBlockItem/DamageBlockItem";
+import { CloseIcon } from "../../SVGIcon/icons";
+import CompareBlockItem from "../CompareBlockItem/CompareBlockItem";
+import DamageBlockItem from "../DamageBlockItem/DamageBlockItem";
 
 type damageRangeProps<TDamage> = {
   heads: Array<TDamage>;
@@ -73,14 +73,14 @@ const CompareBlock = ({
         </span>
         <span className="text-sm">{weapon.shopData?.category}</span>
         <button
-          className="w-8 h-8 rounded-full bg-rose-700 hover:bg-rose-400 float-right cursor-pointer mt-[-50px] mr-[-25px] hover:scale-125 transition-all"
+          className="w-8 h-8 rounded-full bg-rose-700 hover:bg-rose-400 md:float-right cursor-pointer md:mt-[-50px] md:mr-[-25px] hover:scale-125 transition-all"
           onClick={() => setClose()}
         >
           <CloseIcon className="w-8 h-8" />
         </button>
       </div>
       <div className="flex flex-col w-full">
-        <div className="flex flex-col bg-zinc-500 items-center justify-center py-10 h-[300px] overflow-hidden">
+        <div className="flex flex-col bg-zinc-500 items-center justify-center py-10 md:h-[300px] overflow-hidden">
           {!imageLoading ? (
             <Image
               src={imageURL ? imageURL : weapon.displayIcon}

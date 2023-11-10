@@ -1,6 +1,6 @@
 "use client";
 
-import CompareBlock from "@/components/layout/CompareBlock";
+import CompareBlock from "@/components/ui/CompareBlock/CompareBlock";
 import { weaponDefaultProps } from "@/types/weapon";
 
 type weaponCompare = {
@@ -17,13 +17,13 @@ const WeaponCompare = ({
   secondSetValue,
 }: weaponCompare) => {
   return (
-    <section className="flex flex-row justify-between pt-10 px-6">
-      <div className="w-5/12">
+    <section className="flex flex-row justify-between pt-10 md:px-6 max-md:gap-4">
+      <div className="md:w-5/12 max-md:w-1/2">
         {firstCompareValue && (
           <CompareBlock weapon={firstCompareValue} setClose={firstSetValue} />
         )}
       </div>
-      <div className="w-5/12">
+      <div className="md:w-5/12 max-md:w-1/2">
         {secondCompareValue && (
           <CompareBlock
             weapon={secondCompareValue}

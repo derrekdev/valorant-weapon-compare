@@ -27,6 +27,10 @@
 // }
 
 @media (max-width: 641px) {
+  :root {
+    font-size: 3vw;
+  }
+
   .container {
     max-width: 640px;
     width: 95vw;
